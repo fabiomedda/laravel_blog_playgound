@@ -16,6 +16,7 @@ class PostController extends Controller
     {
         //$posts = Post::all();
         $posts = Post::latest()->get();
+        //$posts = Post::findOrFail(122);
         //dd($posts);
         return view('posts.index', compact('posts'));
     }
@@ -43,13 +44,20 @@ class PostController extends Controller
         //dd("Ciao", request('title'), request('body'));
 
         // validare i dati
-
-        $post = new Post;
+        $validatedData = $request->validate([
+           'title' => 'required',
+           'body' => 'required' 
+        ]);
+        Post::create($validatedData);
+        /* $post = new Post;
         $post->title = request('title');
         $post->body = request('body');
-        $post->save();
-
-        return redirect()->route('posts.index');
+        $post->save(); */
+        
+        //$alpa_posts = Post::orderBy('title')->take(5)->get();
+        $new_post = Post::orderBy('id', 'desc')->first();
+        //dd($new_post);
+        return redirect()->route('posts.show', $new_post);
     }
 
     /**
@@ -89,9 +97,14 @@ class PostController extends Controller
         //dd($request->all(), $post);
         // validare i dati
 
-        $data = $request->all();
-        $post->update($data);
+         $validatedData = $request->validate([
+           'title' => 'required',
+           'body' => 'required' 
+        ]);
 
+        /* $data = $request->all();
+        $post->update($data); */
+        $post->update($validatedData);
         return redirect()->route('posts.index');
     }
 
