@@ -44,11 +44,9 @@ class PageController extends Controller
      *
      * @return view
      */
-    public function posts(Post $post)
+    public function posts_api()
     {
-
-        $posts = $post->all();
-        return view('posts', compact('posts'));
+        return view('spa.posts');
     }
 
 
