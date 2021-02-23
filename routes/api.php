@@ -23,3 +23,5 @@ Route::get('posts', function () {
         'data' => App\Post::all()
     ], 200);
 });
+
+Route::get('posts', 'Api/PostController@post');
